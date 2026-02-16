@@ -98,9 +98,9 @@ try:
                 print("ボタンが押されました！")
 
                 # 2. サーバーへ信号を送る
-                print(f"送信中... {SERVER_URL}")
+                print(f"送信中... {SERVER_URL}button_pressed")
                 try:
-                    response = requests.get(SERVER_URL)
+                    response = requests.get(SERVER_URL + "button_pressed")
                     print("ラズパイからの返事：", response.text)
                     
                     if response.status_code == 200:

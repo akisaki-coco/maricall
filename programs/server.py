@@ -1,4 +1,5 @@
 from flask import Flask
+import beep
 
 app = Flask(__name__)
 
@@ -7,7 +8,8 @@ app = Flask(__name__)
 def receive_signal():
     print("--------------------------------")
     print("【受信】 ボタンが押されました！")
-    print("ここで将来ブザーを鳴らします")
+    print("ブザーを鳴らします")
+    beep.beep()  # ブザーを鳴らす関数を呼び出す
     print("--------------------------------")
 
     # 送信側に「届いたよ」と返事をする
