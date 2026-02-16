@@ -1,7 +1,15 @@
 from gpiozero import LED
 import time
+import signal
+import sys
 
-led = LED(23)  # GPIO17にLEDを接続
+led = LED(23)  # GPIO23にLEDを接続
+signal.signal(signal.SIGTERM, destroy) # terminateシグナルを受け取ったときにdestroy関数を呼び出す
+
+def destroy(signum, frame):
+    print("\nLED点滅を終了します")
+    led.off()
+    sys.exit(0)
 
 try:
     while True:
@@ -10,6 +18,6 @@ try:
         led.off()
         time.sleep(0.5)
 
-except KeyboardInterrupt:
-    print("\nLED点滅を終了します")
-    led.off()  # 念のためLEDを消しておく
+except Exception as e:
+    print(f"エラーが発生しました: {e}")
+    led.off()
