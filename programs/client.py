@@ -100,6 +100,7 @@ try:
                 print("ボタンが押されました！")
 
                 # サブプロセスでLEDを点滅させる（オプション）
+                print("LED点滅開始...")
                 led_process = subprocess.Popen(["python3", "led_blink.py"])
 
                 # 2. サーバーへ信号を送る
