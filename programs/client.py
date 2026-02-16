@@ -2,6 +2,7 @@ from gpiozero import Button
 from gpiozero import LED
 import requests
 import time
+import subprocess
 
 # ラズパイのIPアドレスを指定 (例: 192.168.1.131)
 # 新規環境ではそれに応じてラズパイのIPアドレスを確認する必要あり
@@ -88,6 +89,7 @@ SERVER_URL = "http://192.168.1.143:5000/"
 
 button = Button(18)  # GPIO18に接続されたボタン
 pressed = False
+led_process = None  # LED点滅プロセスの管理用変数
 
 try:
     while True:
@@ -96,6 +98,9 @@ try:
             if pressed == False:  # ボタンが押された瞬間だけ反応させる
                 pressed = True
                 print("ボタンが押されました！")
+
+                # サブプロセスでLEDを点滅させる（オプション）
+                led_process = subprocess.Popen(["python3", "led_blink.py"])
 
                 # 2. サーバーへ信号を送る
                 print(f"送信中... {SERVER_URL}button_pressed")
@@ -117,6 +122,11 @@ try:
 
 except KeyboardInterrupt:
     print("\n終了します")
+    # LED点滅プロセスが動いていれば終了させる
+    if led_process is not None:
+        led_process.terminate()
+        led_process.wait(timeout=0.5)
+        led_process = None
 
 # try:
 #     while True:
