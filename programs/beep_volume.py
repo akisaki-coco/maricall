@@ -68,10 +68,12 @@ def stop_handler(signum, frame):
     print(f"\n停止シグナル({signum})を受信。終了処理を開始します...")
     is_active = False
     
-    if current_process:
+    if current_process is not None:
         try:
             current_process.terminate()
             current_process.wait(timeout=0.5)
+            # current_processをリセット
+            current_process = None
         except Exception:
             pass
     else:

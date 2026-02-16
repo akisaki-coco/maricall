@@ -26,11 +26,13 @@ def stop_handler(signum, frame):
     is_active = False
     
     # 再生中のプロセスがあれば強制終了して音を止める
-    if current_process:
+    if current_process is not None:
         try:
             current_process.terminate()
             # プロセスが完全に死ぬのを少しだけ待つ
             current_process.wait(timeout=0.5)
+            # current_processをリセット
+            current_process = None
         except Exception:
             pass
     else:
