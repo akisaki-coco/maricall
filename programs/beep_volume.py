@@ -134,12 +134,12 @@ def beep():
         while is_active:
             # 960Hz
             if not is_active: break
-            current_process = subprocess.Popen(["play", "-n", "synth", "0.65", "sine", "960"])
+            current_process = subprocess.Popen(["play", "-n", "synth", "0.65", "sine", "2000"])
             current_process.wait() 
             
             # 770Hz
             if not is_active: break
-            current_process = subprocess.Popen(["play", "-n", "synth", "0.65", "sine", "770"])
+            current_process = subprocess.Popen(["play", "-n", "synth", "0.65", "sine", "1500"])
             current_process.wait()
 
     except Exception as e:
