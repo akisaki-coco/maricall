@@ -1,7 +1,7 @@
 from gpiozero import LED
 import time
 
-led = LED(17)  # GPIO17にLEDを接続
+led = LED(23)  # GPIO17にLEDを接続
 
 try:
     while True:
@@ -9,6 +9,6 @@ try:
         time.sleep(0.5)
         led.off()
         time.sleep(0.5)
-        
+
 except KeyboardInterrupt:
     print("\nLED点滅を終了します")
