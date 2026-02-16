@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>緊急停止</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffcccc; /* 薄い赤 */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+        }
+        .stop-button {
+            background-color: #ff0000; /* 真っ赤 */
+            color: white;
+            border: none;
+            border-radius: 50%; /* 丸いボタン */
+            width: 80vw;  /* 画面幅の80% */
+            height: 80vw; /* 正円にする */
+            max-width: 400px;
+            max-height: 400px;
+            font-size: 3rem;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            cursor: pointer;
+            animation: pulse 1s infinite; /* ドキドキさせるアニメーション */
+        }
+        .stop-button:active {
+            background-color: #cc0000;
+            transform: scale(0.95);
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .message {
+            position: absolute;
+            top: 5%;
+            width: 100%;
+            text-align: center;
+            font-size: 1.5rem;
+            color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">警報発令中！</div>
+    <button class="stop-button" onclick="stopBuzzer()">停止</button>
+
+    <script>
+        function stopBuzzer() {
+            // サーバーに停止命令を送る
+            fetch('/api/stop_buzzer')
+                .then(response => response.text())
+                .then(data => {
+                    alert("停止しました");
+                    window.close(); // 可能なら閉じる
+                })
+                .catch(err => {
+                    alert("停止エラー: " + err);
+                });
+        }
+    </script>
+</body>
+</html>

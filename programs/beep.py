@@ -33,6 +33,10 @@ def stop_handler(signum, frame):
             current_process.wait(timeout=0.5)
         except Exception:
             pass
+    else:
+        print("現在再生中のプロセスはありません。")
+        print("プログラムは正常に終了します。")
+        sys.exit(0)  # プロセスがない場合はすぐに終了
 
 def setup_signal():
     """シグナルハンドラの設定（メインスレッドで実行必須）"""
