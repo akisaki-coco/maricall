@@ -28,5 +28,8 @@ def light_led():
     return "LED_OK"
 
 if __name__ == '__main__':
+    # サーバーを起動する前に、メインスレッドでシグナルハンドラを設定する
+    beep.setup_signal()
+
     # host='0.0.0.0' にしないと、外部(PC)からアクセスできないので注意
     app.run(host='0.0.0.0', port=5000)

@@ -17,12 +17,18 @@ def stop_handler(signum, frame):
     if current_process:
         current_process.terminate()
 
-def beep():
-    global current_process
-    
+def setup_signal():
+    """シグナルレジストリへハンドラを登録（メインスレッドで叩く必要あり）"""
     # 停止シグナル(SIGUSR1)のハンドラを登録
     # 何があってもこのシグナル（SIGUSR1という名称）を受け取ると stop_handler が呼ばれるようにする
     signal.signal(signal.SIGUSR1, stop_handler)
+    print("シグナルハンドラを設定しました。(SIGUSR1 -> stop_handler)")
+
+def beep():
+    global current_process, is_active
+    
+    # ループ再開のためにフラグをリセット
+    is_active = True
     
     # 自身のPIDを取得
     # どのプログラムを止めればよいのかの識別用

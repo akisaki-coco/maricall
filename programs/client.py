@@ -111,6 +111,10 @@ try:
                     print("エラー: ラズパイに繋がりません。IPアドレスは合っていますか？サーバーは動いていますか？")
         else:
             pressed = False  # ボタンが離されたらリセット
+        
+        # CPU負荷を下げるための待機時間
+        time.sleep(0.1)
+
 except KeyboardInterrupt:
     print("\n終了します")
 
