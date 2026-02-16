@@ -113,6 +113,13 @@ try:
                         print("成功: ラズパイが反応しました")
                     else:
                         print(f"失敗: ステータスコード {response.status_code}")
+
+                    # LED点滅プロセスが動いていれば終了させる
+                    if led_process is not None:
+                        led_process.terminate()
+                        led_process.wait(timeout=0.5)
+                        led_process = None
+                        
                 except requests.exceptions.ConnectionError:
                     print("エラー: ラズパイに繋がりません。IPアドレスは合っていますか？サーバーは動いていますか？")
         else:

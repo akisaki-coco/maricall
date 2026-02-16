@@ -12,3 +12,4 @@ try:
 
 except KeyboardInterrupt:
     print("\nLED点滅を終了します")
+    led.off()  # 念のためLEDを消しておく
