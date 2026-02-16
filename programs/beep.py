@@ -41,8 +41,11 @@ def beep():
     button_text = "停止"
     action_command = f"kill -SIGUSR1 {pid}" # killコマンドでこのプログラムにSIGUSR1を送る（= stop_handlerを呼ぶ）
     
+    # 【重要】--ongoing を使うには --id が必須です
+    # IDを指定することで、後から消すことも可能になります
     notification_cmd = [
         "termux-notification",
+        "--id", "beep_alert",  # IDを追加("beep_alert"という名前の通知を作る。任意の文字列でOK)
         "--title", title,
         "--content", content,
         "--button1", button_text,
@@ -51,11 +54,14 @@ def beep():
     ]
     
     try:
-        subprocess.run(notification_cmd, check=True)
+        # check=False にして、もし通知作成に失敗してもブザー処理は続行させる（超重要）
+        subprocess.run(notification_cmd, check=False)
     except FileNotFoundError:
         print("警告: termux-notification コマンドが見つかりません。Termux:APIを確認してください。")
+    except Exception as e:
+        print(f"警告: 通知の作成で予期せぬエラーが発生しました: {e}")
 
-    print(f"ループ開始 (DID: {pid})。通知の停止ボタンで終了します...")
+    print(f"ループ開始 (PID: {pid})。")
 
     try:
         while is_active:
@@ -77,6 +83,7 @@ def beep():
     finally:
         # 終了時に通知を削除する（ID指定していないため全消去の例ですが、適宜調整可能）
         # subprocess.run(["termux-notification-remove", "0"]) # IDを指定した場合
+        subprocess.run(["termux-notification-remove", "beep_alert"], check=False)
         print("終了しました。")
 
 if __name__ == "__main__":
